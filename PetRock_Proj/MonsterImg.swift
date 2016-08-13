@@ -30,7 +30,7 @@ class MonsterImg: UIImageView {
             imageArr.append(img!)                       // save the images in the loop
         }
         
-        self.animationImages = imageArr
+        //self.animationImages = imageArr
         self.animationImages = imageArr           // use these commands to set up the animation
         self.animationDuration = 0.8
         self.animationRepeatCount = 0
@@ -50,8 +50,24 @@ class MonsterImg: UIImageView {
             imageArr.append(img!)                       // save the images in the loop
         }
         
-        self.animationImages = imageArr
+        //self.animationImages = imageArr
         self.animationImages = imageArr           // use these commands to set up the animation
+        self.animationDuration = 0.8
+        self.animationRepeatCount = 1
+        self.startAnimating()
+    }
+    
+    func playAttackAnimation (){
+        self.image = UIImage(named: "idle1.png")
+        self.animationImages = nil
+        
+        var imageArr = [UIImage]()
+        
+        for x in 1...8 {
+            let img = UIImage(named: "attack (\(x)).png")
+            imageArr.append(img!)
+        }
+        self.animationImages = imageArr
         self.animationDuration = 0.8
         self.animationRepeatCount = 1
         self.startAnimating()
