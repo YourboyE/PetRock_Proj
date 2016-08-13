@@ -12,11 +12,19 @@ import AVFoundation
 class ViewController: UIViewController {
 
     @IBOutlet weak var monsterImg: MonsterImg! // name the animation
+    @IBOutlet weak var livesPanel: UIImageView!
     @IBOutlet weak var foodImg: DragImg!
     @IBOutlet weak var heartImg: DragImg!
     @IBOutlet weak var penalty1Img: UIImageView!
     @IBOutlet weak var penalty2Img: UIImageView!
     @IBOutlet weak var penatly3Img: UIImageView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var rockImg: DragImg!
+    @IBOutlet weak var rockPetSelectionBtn: UIButton!
+    @IBOutlet weak var gopherPetSelectionBtn: UIButton!
+    @IBOutlet weak var chooseYourTitle: UIImageView!
+    @IBOutlet weak var playerTitle: UIImageView!
+    
     
     let DIM_ALPHA: CGFloat = 0.2
     let OPAQUE: CGFloat = 1.0
@@ -31,21 +39,42 @@ class ViewController: UIViewController {
     var sfxHeart: AVAudioPlayer!
     var sfxDeath: AVAudioPlayer!
     var sfxSkull: AVAudioPlayer!
+    var sfxRock: AVAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+      
+        
+
+
+}
+    @IBAction func onGopherPetSelectionBtnTapped(sender: AnyObject) {
+        
+        
+        
+    }
+    
+    @IBAction func onRockSelectionBtnTapped(sender: AnyObject) {
+        
+        hideIntro()
+        showRockPet()
+        monsterImg.playIdleAnimation()
+        
         foodImg.dropTarget = monsterImg
         heartImg.dropTarget = monsterImg
+        rockImg.dropTarget = monsterImg
         
         penalty1Img.alpha = DIM_ALPHA
         penalty2Img.alpha = DIM_ALPHA
         penatly3Img.alpha = DIM_ALPHA
         
+        tryAgainBtn.hidden = true
+        
         changeGameState()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.itemDroppedOnCharacter(_:)), name: "onTargetDropped", object: nil)
-  
+        
         do {
             try musicPlayer = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("cave-music", ofType: "mp3")!))
             
@@ -56,6 +85,7 @@ class ViewController: UIViewController {
             try sfxHeart = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("heart", ofType: "wav")!))
             
             try sfxSkull = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("skull", ofType: "wav")!))
+            try sfxRock = AVAudioPlayer(contentsOfURL: NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("powerup", ofType: "wav")!))
             
             musicPlayer.prepareToPlay()
             musicPlayer.play()
@@ -64,6 +94,7 @@ class ViewController: UIViewController {
             sfxDeath.prepareToPlay()
             sfxHeart.prepareToPlay()
             sfxSkull.prepareToPlay()
+            sfxRock.prepareToPlay()
             
         } catch let err as NSError {
             print(err.debugDescription)
@@ -71,9 +102,8 @@ class ViewController: UIViewController {
         
         startTimer()
         
-
-
-}
+    }
+    
 
     func itemDroppedOnCharacter(notif: AnyObject) {
         monsterHappy = true
@@ -83,12 +113,21 @@ class ViewController: UIViewController {
         foodImg.userInteractionEnabled = false
         heartImg.alpha = DIM_ALPHA
         heartImg.userInteractionEnabled = false
+        rockImg.alpha = DIM_ALPHA
+        rockImg.userInteractionEnabled = false
         
         if currentItem == 0 {
-            sfxHeart.play()
-        } else {
             sfxBite.play()
+            monsterImg.playIdleAnimation()
+            
+        } else if currentItem == 1 {
+            sfxHeart.play()
+            monsterImg.playIdleAnimation()
+        } else {
+            sfxRock.play()
+            monsterImg.playAttackAnimation()
         }
+       
     }
     
     func startTimer() {
@@ -126,20 +165,35 @@ class ViewController: UIViewController {
 
         }
         
-        let rand = arc4random_uniform(2) // 0 or 1
-        
+        let rand = arc4random_uniform(3) // 0 or 1
+                
         if rand == 0 {
-            foodImg.alpha = DIM_ALPHA
-            foodImg.userInteractionEnabled = false
+            foodImg.alpha = OPAQUE
+            foodImg.userInteractionEnabled = true
             
-            heartImg.alpha = OPAQUE
-            heartImg.userInteractionEnabled = true
-        } else {
             heartImg.alpha = DIM_ALPHA
             heartImg.userInteractionEnabled = false
             
-            foodImg.alpha = OPAQUE
-            foodImg.userInteractionEnabled = true
+            rockImg.alpha = DIM_ALPHA
+            rockImg.userInteractionEnabled = false
+        } else if rand == 1 {
+            heartImg.alpha = OPAQUE
+            heartImg.userInteractionEnabled = true
+            
+            foodImg.alpha = DIM_ALPHA
+            foodImg.userInteractionEnabled = false
+            
+            rockImg.alpha = DIM_ALPHA
+            rockImg.userInteractionEnabled = false
+        } else {
+            rockImg.alpha = OPAQUE
+            rockImg.userInteractionEnabled = true
+            
+            heartImg.alpha = DIM_ALPHA
+            heartImg.userInteractionEnabled = false
+            
+            foodImg.alpha = DIM_ALPHA
+            foodImg.userInteractionEnabled = false
         }
         
         currentItem = rand
@@ -149,9 +203,53 @@ class ViewController: UIViewController {
     
     func gameOver() {
         timer.invalidate()
+        tryAgainBtn.hidden = false
         monsterImg.playDeathAnimation()
+        musicPlayer.stop()
         sfxDeath.play()
         
+    }
+     @IBAction func onTryAgainBtnPressed(sender: AnyObject) {
+        restartGame()
+
+    }
+    func hideIntro(){
+        chooseYourTitle.hidden = true
+        playerTitle.hidden = true
+        rockPetSelectionBtn.hidden = true
+        gopherPetSelectionBtn.hidden = true
+    }
+    
+    func showRockPet() {
+        monsterImg.hidden = false
+        livesPanel.hidden = false
+        penalty1Img.hidden = false
+        penalty2Img.hidden = false
+        penatly3Img.hidden = false
+        foodImg.hidden = false
+        heartImg.hidden = false
+        rockImg.hidden = false
+        
+        
+    }
+    
+    func restartGame(){
+        
+        chooseYourTitle.hidden = false
+        playerTitle.hidden = false
+        rockPetSelectionBtn.hidden = false
+        gopherPetSelectionBtn.hidden = false
+        
+        
+        monsterImg.hidden = true
+        livesPanel.hidden = true
+        penalty1Img.hidden = true
+        penalty2Img.hidden = true
+        penatly3Img.hidden = true
+        foodImg.hidden = true
+        heartImg.hidden = true
+        rockImg.hidden = true
+        tryAgainBtn.hidden = true
     }
     
 }

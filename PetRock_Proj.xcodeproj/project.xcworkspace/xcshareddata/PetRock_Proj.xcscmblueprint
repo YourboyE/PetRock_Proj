@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "56A2D791C6C84C1AE0BD98F96A746CB400A044B7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "56A2D791C6C84C1AE0BD98F96A746CB400A044B7" : 0,
+    "3B60E482BB9EA5E049452A1887FAAE540D52B0D2" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "40394615-BF69-4FEB-856F-0E535FFFC088",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "56A2D791C6C84C1AE0BD98F96A746CB400A044B7" : "PetRock_Proj\/",
+    "3B60E482BB9EA5E049452A1887FAAE540D52B0D2" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "PetRock_Proj",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "PetRock_Proj.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/YourboyE\/ageTest.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3B60E482BB9EA5E049452A1887FAAE540D52B0D2"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:YourboyE\/PetRock_Proj.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "56A2D791C6C84C1AE0BD98F96A746CB400A044B7"
+    }
+  ]
+}
